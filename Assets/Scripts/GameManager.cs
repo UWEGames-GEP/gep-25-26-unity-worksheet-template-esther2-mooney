@@ -2,23 +2,24 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    enum GameState
+    private enum GameState
     {
         GAMEPLAY,
         PAUSE
     }
-    GameState State;
-    bool hasChangedState;
+    private GameState State;
+    private bool hasChangedState;
+    public bool isPlaying;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         State = GameState.GAMEPLAY;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -27,41 +28,43 @@ public class GameManager : MonoBehaviour
                 case GameState.GAMEPLAY:
                     State = GameState.PAUSE;
                     hasChangedState = true;
+                    isPlaying = false;
                     Debug.Log("paused");
                     break;
                 case GameState.PAUSE:
                     State = GameState.GAMEPLAY;
                     hasChangedState = true;
+                    isPlaying = true;
                     Debug.Log("played");
                     break;
             }
 
         }
-            /* ORIGINAL IF ELSE CODE
-            if (State == GameState.GAMEPLAY)
+        /* ORIGINAL IF ELSE CODE
+        if (State == GameState.GAMEPLAY)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    State = GameState.PAUSE;
-                    hasChangedState = true;
-                    Debug.Log("paused");
-                }
+                State = GameState.PAUSE;
+                hasChangedState = true;
+                Debug.Log("paused");
             }
-            else if (State == GameState.PAUSE)
+        }
+        else if (State == GameState.PAUSE)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    State = GameState.GAMEPLAY;
-                    hasChangedState = true;
-                    Debug.Log("played");
-                }
+                State = GameState.GAMEPLAY;
+                hasChangedState = true;
+                Debug.Log("played");
             }
-            */
+        }
+        */
     }
 
-        
 
-    void LateUpdate()
+
+    private void LateUpdate()
     {
         if (hasChangedState)
         {
@@ -76,5 +79,5 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    
+
 }
