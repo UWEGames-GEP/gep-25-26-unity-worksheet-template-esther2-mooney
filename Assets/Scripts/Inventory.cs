@@ -1,16 +1,22 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public List<string> items = new List<string>();
+    [SerializeField]
+    private List<string> items = new List<string>();
+
+    private string[] random_loot = { "Gold", "Silver", "Diamond", "Sword", "Axe" };
+
 
     public GameManagerCLASS gameManager;
-    public void AddToInventory(string name)
+    private void AddToInventory(string name)
     {
+        Debug.Log("Added item");
         items.Add(name);
     }
-    public void RemoveFromInventory(string name)
+    private void RemoveFromInventory(string name)
     {
         items.Remove(name);
     }
@@ -24,6 +30,9 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        OnControllerColliderHit hit = null;
+        ItemObject collisionItem = hit.gameObject.GetComponent<ItemObject>();
+
         gameManager = FindAnyObjectByType<GameManagerCLASS>();
         bool isPlaying = gameManager.isPlaying;
 
@@ -31,15 +40,18 @@ public class Inventory : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
-                Debug.Log("Added item");
-                AddToInventory("GenericItem");
-
+                int rnd = Random.Range(0, random_loot.Length);
+                AddToInventory(random_loot[rnd]);
             }
             else if (Input.GetKeyDown(KeyCode.X))
             {
                 Debug.Log("Removed item");
-                RemoveFromInventory("GenericItem");
-
+                RemoveFromInventory(items[0]);
+            }
+            else if (Input.GetKeyDown(KeyCode.Z))
+            {
+                Debug.Log("Sorted list");
+                items.Sort();
             }
         }
     }
