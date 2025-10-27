@@ -1,27 +1,23 @@
 using UnityEngine;
 
 public class GameState
-{    public void Enter() { }
+{
+    public void Enter() { }
 }
-
 public class GameplayState : GameState
-{    public void Enter()
+{   new public void Enter()
     {
         Time.timeScale = 1.0f;
         Debug.Log("Entered play state");
     }
 }
-
 public class PauseState : GameState
-{    public void Enter()
+{   new public void Enter()
     {
         Time.timeScale = 0.0f;
         Debug.Log("Entered pause state");
     }
 }
-
-
-
 public class GameManagerCLASS : MonoBehaviour
 {
     private PauseState pause = new PauseState();

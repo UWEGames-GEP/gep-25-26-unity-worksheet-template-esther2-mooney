@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ItemObject : MonoBehaviour
 {
+    public string item_name;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -12,7 +13,7 @@ public class ItemObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        OnControllerColliderHit
+        //OnControllerColliderHit;
             
     }
 }
