@@ -10,7 +10,6 @@ public class Inventory : MonoBehaviour
     private string[] random_loot = { "Gold", "Silver", "Diamond", "Sword", "Axe", "GUn.", "Bow", "the evil." };
 
     public GameManagerCLASS gameManager;
-
     public ItemObject hit;
     public AudioSource source;
     public AudioClip clip;

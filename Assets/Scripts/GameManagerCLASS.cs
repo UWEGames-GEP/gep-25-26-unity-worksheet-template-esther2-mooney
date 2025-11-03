@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameState
 {
@@ -23,6 +24,7 @@ public class GameManagerCLASS : MonoBehaviour
     private PauseState pause = new PauseState();
     private GameplayState gameplay = new GameplayState();
     public bool isPlaying;
+    public GameObject textparent;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -35,15 +37,20 @@ public class GameManagerCLASS : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPlaying)
+            switch (isPlaying)
             {
-                pause.Enter();
-                isPlaying = false;
-            }
-            else if (!isPlaying)
-            {
-                gameplay.Enter();
-                isPlaying = true;
+                case true:
+                    pause.Enter();
+                    isPlaying = false;
+                    Debug.Log("paused");
+                    textparent.SetActive(true);
+                    break;
+                case false:
+                    gameplay.Enter();
+                    isPlaying = true;
+                    Debug.Log("played");
+                    textparent.SetActive(false);
+                    break;
             }
         }
     }
