@@ -6,17 +6,19 @@ public class GameState
     public void Enter() { }
 }
 public class GameplayState : GameState
-{   new public void Enter()
+{   new public bool Enter()
     {
         Time.timeScale = 1.0f;
         Debug.Log("Entered play state");
+        return true;
     }
 }
 public class PauseState : GameState
-{   new public void Enter()
+{   new public bool Enter()
     {
         Time.timeScale = 0.0f;
         Debug.Log("Entered pause state");
+        return false;
     }
 }
 public class GameManagerCLASS : MonoBehaviour
@@ -40,15 +42,12 @@ public class GameManagerCLASS : MonoBehaviour
             switch (isPlaying)
             {
                 case true:
-                    pause.Enter();
-                    isPlaying = false;
-                    Debug.Log("paused");
+                    isPlaying = pause.Enter();
                     textparent.SetActive(true);
                     break;
                 case false:
-                    gameplay.Enter();
-                    isPlaying = true;
-                    Debug.Log("played");
+                    
+                    isPlaying = gameplay.Enter(); 
                     textparent.SetActive(false);
                     break;
             }
