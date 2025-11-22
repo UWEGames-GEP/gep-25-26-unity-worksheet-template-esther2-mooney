@@ -1,19 +1,11 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class ItemObject : MonoBehaviour
+[CreateAssetMenu(fileName = "ItemObject", menuName = "Scriptable Objects/ItemObject")]
+public class ItemObject : ScriptableObject
 {
     public string item_name;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //OnControllerColliderHit;
-            
-    }
+    public string item_type;
 }
+
+
+

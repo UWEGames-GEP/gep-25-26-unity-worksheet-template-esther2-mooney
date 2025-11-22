@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,29 +28,45 @@ public class GameManagerCLASS : MonoBehaviour
     private PauseState pause = new PauseState();
     private GameplayState gameplay = new GameplayState();
     public bool isPlaying;
-    public GameObject textparent;
+    public GameObject pause_text;
+    public GameObject end_text;
+    public GameObject player;
+    private Inventory inventory;
+    public GameObject checkpoint;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         isPlaying = true;
+         inventory = player.GetComponent<Inventory>();
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if (inventory.gotAll)
+        {
+            end_text.SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R)) 
+        {
+            player.transform.position = checkpoint.transform.position;
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             switch (isPlaying)
             {
                 case true:
                     isPlaying = pause.Enter();
-                    textparent.SetActive(true);
+                    pause_text.SetActive(true);
                     break;
                 case false:
-                    
-                    isPlaying = gameplay.Enter(); 
-                    textparent.SetActive(false);
+
+                    isPlaying = gameplay.Enter();
+                    pause_text.SetActive(false);
                     break;
             }
         }

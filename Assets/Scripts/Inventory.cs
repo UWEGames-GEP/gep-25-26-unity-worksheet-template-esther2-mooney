@@ -6,16 +6,16 @@ using UnityEngine.Rendering;
 public class Inventory : MonoBehaviour
 {
     [SerializeField]
+    //private List<ItemObject> itemObjects = new List<ItemObject>();
     private List<string> items = new List<string>();
-    private string[] random_loot = { "Gold", "Silver", "Diamond", "Sword", "Axe", "GUn.", "Bow", "the evil." };
+    private string[] random_loot = { "Gold", "Silver", "Diamond", "Sword", "Axe", "Bow", "Copper", "Potion", "Bomb", "Crystal" };
 
     public GameManagerCLASS gameManager;
-    public ItemObject hit;
+    private Spin hit;
     public AudioSource source;
     public AudioClip clip;
     public GameObject itemContainer;
-    public GameObject text;
-    bool gotAll = false;
+    public bool gotAll = false;
     private void AddToInventory(string name)
     {
         //add to list
@@ -51,7 +51,7 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        ItemObject collisionItem = hit.gameObject.GetComponent<ItemObject>();
+        Spin collisionItem = hit.gameObject.GetComponent<Spin>();
         if (collisionItem != null)  
         {
             AddToInventory(collisionItem.name);
@@ -81,9 +81,6 @@ public class Inventory : MonoBehaviour
         if (itemContainer.transform.childCount <= 0 && !gotAll)
         {
             Debug.Log("got all");
-            this.transform.position = new Vector3(11f,33f,-23f);
-            Time.timeScale = 0.0f;
-            text.SetActive(true);
             gotAll = true;
         }
     }
