@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -7,82 +8,102 @@ public class Inventory : MonoBehaviour
 {
     [SerializeField]
     //private List<ItemObject> itemObjects = new List<ItemObject>();
-    private List<string> items = new List<string>();
+    public List<ItemObject> items = new List<ItemObject>();
     private string[] random_loot = { "Gold", "Silver", "Diamond", "Sword", "Axe", "Bow", "Copper", "Potion", "Bomb", "Crystal" };
 
-    public GameManagerCLASS gameManager;
-    private Spin hit;
+    public GameManager gameManager;
+    Transform worldItemsTransform;
+    private ItemObject hit;
     public AudioSource source;
     public AudioClip clip;
     public GameObject itemContainer;
     public bool gotAll = false;
-    private void AddToInventory(string name)
+    private void AddItem(ItemObject collisionItem)
     {
-        //add to list
-        if (name.Contains("Gold Chest"))
+        if (collisionItem.name == "Gold Chest")
         {
-            while (true)
-            {
-                int rnd = Random.Range(0, random_loot.Length);
-                if (random_loot[rnd] != "")
-                {
-                    items.Add(random_loot[rnd]);
-                    random_loot[rnd] = "";
-                    break;
-                }
-            }
+            int rnd = Random.Range(0, random_loot.Length);
+            collisionItem.name = random_loot[rnd];
         }
-        else
-        {
-            items.Add(name);
-        } 
+        items.Add(collisionItem);
+        
+        Debug.Log(collisionItem.name);
     }
-    private void RemoveFromInventory(string name)
+    public void RemoveItem(ItemObject collisionItem)
     {
-        items.Remove(name);
+        Vector3 currentPosition = transform.position;
+        Vector3 forward = transform.forward;
+
+        Vector3 newPostion = currentPosition + forward;
+        newPostion += new Vector3(0, 1, 0);
+
+        Quaternion currentRotation = transform.rotation;
+        Quaternion newRotation = currentRotation * Quaternion.Euler(0, 0, 0);
+
+
+        GameObject newItem = Instantiate(collisionItem.gameObject, newPostion, newRotation, worldItemsTransform);
+        newItem.name = newItem.name.Remove(newItem.name.Length - 7);
+        newItem.SetActive(true);
+
+        items.Remove(collisionItem);
+        Destroy(collisionItem.gameObject);
+    }
+
+    public void RemoveItem(int i)
+    {
+        if ( i < items.Count)
+        {
+            RemoveItem(items[i]); 
+        }
+    }
+
+    public void RemoveItem() 
+    {
+        if (gameManager.game.state == GameState.StateENUM.GAMEPLAY && items.Count >0)
+        {
+            ItemObject item = items[0];
+            RemoveItem(item);
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         gotAll = false;
+        gameManager = FindAnyObjectByType<GameManager>();
+      //  Transform worldItemsTransform = GameObject.Find("WorldItems").transform;
     }
 
     // Update is called once per frame
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        Spin collisionItem = hit.gameObject.GetComponent<Spin>();
+        ItemObject collisionItem = hit.gameObject.GetComponent<ItemObject>();
         if (collisionItem != null)  
         {
-            AddToInventory(collisionItem.name);
+            AddItem(collisionItem);
             source.PlayOneShot(clip);
-            Destroy(collisionItem.gameObject);
+            collisionItem.gameObject.SetActive(false);
+                
         }
     }
     private void Update()
-    {        
-        gameManager = FindAnyObjectByType<GameManagerCLASS>();
-        bool isPlaying = gameManager.isPlaying;
-
-        if (isPlaying)
+    {
+        if (gameManager.game.state == GameState.StateENUM.GAMEPLAY)
         {
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                //remove from list
-                items.Remove(items[0]);
-            }
-            else if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.Z))
             {
                 //sort list
                 Debug.Log("Sorted");
                 items.Sort();
             }
         }
-        if (itemContainer.transform.childCount <= 0 && !gotAll)
+        if (itemContainer.transform.childCount == 0 && !gotAll)
         {
             Debug.Log("got all");
             gotAll = true;
         }
+
+
     }
 }
 

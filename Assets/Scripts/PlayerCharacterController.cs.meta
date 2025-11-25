@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c231a80bdb36dd5438e4c56f6333b337
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - LandingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
+  - CinemachineCameraTarget: {instanceID: 0}
+  - ParentManager: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

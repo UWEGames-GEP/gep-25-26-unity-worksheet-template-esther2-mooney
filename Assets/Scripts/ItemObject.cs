@@ -1,11 +1,17 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ItemObject", menuName = "Scriptable Objects/ItemObject")]
-public class ItemObject : ScriptableObject
+public class ItemObject : MonoBehaviour
 {
-    public string item_name;
-    public string item_type;
+    public string itemName;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        itemName = this.gameObject.name;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        transform.Rotate(0f, Time.timeScale * 1f, 0f, Space.Self);
+    }
 }
-
-
-
