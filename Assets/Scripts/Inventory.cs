@@ -20,13 +20,7 @@ public class Inventory : MonoBehaviour
     public bool gotAll = false;
     private void AddItem(ItemObject collisionItem)
     {
-        if (collisionItem.name == "Gold Chest")
-        {
-            int rnd = Random.Range(0, random_loot.Length);
-            collisionItem.name = random_loot[rnd];
-        }
-        items.Add(collisionItem);
-        
+        items.Add(collisionItem);        
         Debug.Log(collisionItem.name);
     }
     public void RemoveItem(ItemObject collisionItem)

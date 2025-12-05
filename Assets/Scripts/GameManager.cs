@@ -24,10 +24,8 @@ public class GameState
 public class GameManager : MonoBehaviour
 {
     public GameState game = new GameState();
-    public GameObject end_text;
     public GameObject player;
     public GameObject checkpoint;
-    public GameObject pause_text;
     public GameObject Inventory_UI;
 
 
@@ -39,10 +37,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (player.GetComponent<Inventory>().gotAll)
-        {
-            end_text.SetActive(true);
-        }
     }
 
     public void LateUpdate()
@@ -73,11 +67,9 @@ public class GameManager : MonoBehaviour
         {
             case GameState.StateENUM.GAMEPLAY:
                 game.PauseEnter();
-                pause_text.SetActive(true);
                 break;
             case GameState.StateENUM.PAUSE:
                 game.PlayEnter();
-                pause_text.SetActive(false);
                 break;
         }
     }
