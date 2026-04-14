@@ -27,7 +27,7 @@ public class PlayerCharacterController : ThirdPersonController
 
     private void OnRemoveItem()
     {
-       GetComponent<Inventory>().RemoveItem();
+       GetComponent<Inventory>().RemoveItem(0);
     }
 
 }
