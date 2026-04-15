@@ -5,8 +5,6 @@ public class InventoryUI : MonoBehaviour
 {
     public Inventory inventory;
     private List<GameObject> ui_buttons = new List<GameObject>();
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
     private void OnEnable()
     {
         RefreshInventory();
@@ -14,13 +12,10 @@ public class InventoryUI : MonoBehaviour
     
     void RefreshInventory()
     {
-       // Debug.Log("Refresh Inventory UI");
         foreach (GameObject button in ui_buttons) 
         {
-           //Debug.Log("setinactive");
             button.SetActive(false);       
         }
-
         for (int i =0; i <inventory.items.Count; i++)
         {
             if (i < ui_buttons.Count)
@@ -29,10 +24,9 @@ public class InventoryUI : MonoBehaviour
                 ItemObject item = inventory.items[i];   
                 button.gameObject.SetActive(true);
                 button.SetButton(item);
-                        }
+            }
         }
     }
-
     public void OnInventoryUIButton(int i)
     {
         inventory.RemoveItem(i);
